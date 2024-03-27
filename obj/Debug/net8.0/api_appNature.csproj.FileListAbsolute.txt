@@ -66,3 +66,4 @@ D:\JOB\Patsoft\appNature\api_appNature\obj\Debug\net8.0\refint\api_appNature.dll
 D:\JOB\Patsoft\appNature\api_appNature\obj\Debug\net8.0\api_appNature.pdb
 D:\JOB\Patsoft\appNature\api_appNature\obj\Debug\net8.0\api_appNature.genruntimeconfig.cache
 D:\JOB\Patsoft\appNature\api_appNature\obj\Debug\net8.0\ref\api_appNature.dll
+D:\JOB\Patsoft\appNature\api_appNature\obj\Debug\net8.0\api_appNature.sourcelink.json

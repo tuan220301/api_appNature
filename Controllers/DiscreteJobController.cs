@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace api_appNature.Controllers
 {
     [ApiController]
-    [Route("/acu/api/v1")]
+    [Route("/api/v1")]
     public class DiscreteJobController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -87,5 +87,50 @@ namespace api_appNature.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
+        [HttpPost]
+        [Route("SaveTrackingDiscreteJob")]
+        public IActionResult SaveTrackingDiscreteJob([FromBody] TrackingDiscreteJobModel model)
+        {
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DBConnect");
+
+                string query = @"INSERT INTO dbo.MFGTRACKINGDISCRETEJOB (CompanyID, DepartmentID, DiscreteID, RoutingNO, PrevQty, Qty, TrackingDate)
+                        VALUES (@CompanyID, @DepartmentID, @DiscreteID, @RoutingNO, @PrevQty, @Qty, @TrackingDate);";
+
+                using (SqlConnection sqlcon = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, sqlcon))
+                    {
+                        // Thêm các tham số vào truy vấn SQL
+                        cmd.Parameters.AddWithValue("@CompanyID", model.CompanyID);
+                        cmd.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        cmd.Parameters.AddWithValue("@DiscreteID", model.DiscreteID);
+                        cmd.Parameters.AddWithValue("@RoutingNO", model.RoutingNO);
+                        cmd.Parameters.AddWithValue("@PrevQty", model.PrevQty);
+                        cmd.Parameters.AddWithValue("@Qty", model.Qty);
+                        cmd.Parameters.AddWithValue("@TrackingDate", model.TrackingDate);
+
+                        sqlcon.Open();
+                        cmd.ExecuteNonQuery();
+                        sqlcon.Close();
+                        var respon = new
+                        {
+                            Message = "Chỉnh sửa công đoạn thành công",
+                            Status = true
+                        };
+                        return Ok(respon);
+                        // return StatusCode((int)HttpStatusCode.Created); 
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error SaveTrackingDiscreteJob: {ex.Message}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
+            }
+        }
+
     }
 }
