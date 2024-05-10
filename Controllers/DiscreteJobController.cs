@@ -40,7 +40,6 @@ namespace api_appNature.Controllers
                         cmd.Parameters.Add(new SqlParameter("@DiscreteNbr", DiscreteNbr));
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
-                            Console.WriteLine($"connectionString: {connectionString}");
                             DataTable dt = new DataTable();
                             da.Fill(dt);
                             Console.WriteLine($"dt: {dt}");
@@ -60,6 +59,8 @@ namespace api_appNature.Controllers
                                     a.InventoryCD = dt.Rows[i]["InventoryCD"].ToString();
                                     a.InventoryDesc = dt.Rows[i]["InventoryDesc"].ToString();
                                     a.DepartmentID = dt.Rows[i]["DepartmentID"].ToString();
+                                    a.Unit = dt.Rows[i]["Unit"].ToString();
+
 
                                     RoutingDiscreteModel b = new RoutingDiscreteModel();
                                     b.RoutingID = Int32.Parse(dt.Rows[i]["RoutingID"].ToString());
